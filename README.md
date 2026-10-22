@@ -10,6 +10,10 @@ Source contract targeted at upstream commit [`e3e2757c70689f1116072b9d8c1136ae4b
 
 Verification: [20 tests pass in GitHub Actions](https://github.com/Oruga420/babalon-cli-mcp/actions/runs/39725155057), with zero skips, including security/schema tests, real MCP SDK stdio handshake, and Chrome browser tests with an independently written editor fixture. PNG and WebM outputs were decoded in that fixture. This proves the wrapper pipeline, not upstream integration. **End-to-end execution of upstream is not yet verified.** No claim of GLB animation round-trip or production editor compatibility is made. See `NOTICE.md` for provenance.
 
+## Next development tasks
+
+See [TASKS.md](TASKS.md) for the prioritized handoff, real-editor validation plan, known gaps and acceptance criteria.
+
 ## Setup
 
 Node.js 22+ and a Chromium executable are required. Install this wrapper's locked packages:
