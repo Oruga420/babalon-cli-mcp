@@ -101,6 +101,7 @@ let available = true;
 try { await access(executable); } catch { available = false; }
 let server, blockedServer, session, directory, url;
 let blockedRequests = 0;
+let blockedWebSockets = 0;
 
 before(async () => {
   if (!available) return;
@@ -112,6 +113,7 @@ before(async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   url = `http://127.0.0.1:${server.address().port}/`;
   blockedServer = createServer((request, response) => { blockedRequests++; response.end('not allowed'); });
+  blockedServer.on('upgrade', (request, socket) => { blockedWebSockets++; socket.end('HTTP/1.1 403 Forbidden\r\n\r\n'); });
   await new Promise(resolve => blockedServer.listen(0, '127.0.0.1', resolve));
   session = new Session({ url, workspace: directory, chromiumPath: executable });
   await session.start();
@@ -208,9 +210,15 @@ browserTest('original fixture: actual Chromium WebM recording decodes and restor
   assert.deepEqual(details, { width: 1280, height: 720, alpha: 0.3, photo: false, recording: false, beforeObservers: 0, afterObservers: 0 });
 });
 
-browserTest('original fixture: cross-origin HTTP is blocked and arbitrary browser operations fail', async () => {
+browserTest('original fixture: cross-origin HTTP/WebSocket blocked and arbitrary browser operations fail', async () => {
   const target = `http://127.0.0.1:${blockedServer.address().port}/private`;
   const outcome = await session.page.evaluate(async target => { try { await fetch(target); return 'allowed'; } catch { return 'blocked'; } }, target);
   assert.equal(outcome, 'blocked'); assert.equal(blockedRequests, 0);
+  await session.page.evaluate(target => new Promise(resolve => {
+    const socket = new WebSocket(target.replace('http:', 'ws:'));
+    socket.onclose = socket.onerror = () => resolve();
+    setTimeout(() => { socket.close(); resolve(); }, 1000);
+  }), target);
+  assert.equal(blockedWebSockets, 0);
   await assert.rejects(session.page.evaluate(browserOperation, { tool: 'evaluate', args: { code: 'alert(1)' } }), /Unsupported operation/);
 });
