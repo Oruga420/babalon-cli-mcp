@@ -1,0 +1,7 @@
+node_modules/
+.env*
+*.glb
+*.webm
+*.mp4
+*.png
+coverage/

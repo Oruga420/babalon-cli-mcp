@@ -1,0 +1,7 @@
+[
+  {"tool":"add_primitive","args":{"type":"box","name":"Story cube"}},
+  {"tool":"camera","args":{"frameAll":true,"alpha":0.8,"beta":1.1,"radius":5}},
+  {"tool":"capture_png","args":{"path":"scene.png"}},
+  {"tool":"export_glb","args":{"path":"scene.glb"}},
+  {"tool":"record_video","args":{"path":"orbit.webm","duration":4,"height":720,"motion":"orbit"}}
+]

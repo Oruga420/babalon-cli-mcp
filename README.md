@@ -8,7 +8,7 @@ Create a scene from a JSON recipe or give an MCP client explicit scene tools. Im
 
 Source contract targeted at upstream commit [`e3e2757c70689f1116072b9d8c1136ae4b7556d5`](https://github.com/holondo/babalonJS/tree/e3e2757c70689f1116072b9d8c1136ae4b7556d5). `window.editor` is exposed by upstream for automation, but is not a stable public API. Startup checks required methods, **not the deployed commit**. Pin your editor checkout yourself. Other versions may break.
 
-Verification on this release: Node security/schema tests and a real MCP SDK stdio handshake pass. Browser tests use an independently written editor fixture, not upstream. **End-to-end execution of upstream is not yet verified.** No claim of GLB animation round-trip or production editor compatibility is made. See `NOTICE.md` for provenance.
+Verification on this release: Node security/schema tests and a real MCP SDK stdio handshake pass. Browser tests use an independently written editor fixture, not upstream. Local Chromium execution was blocked by the execution environment; those browser tests are not yet a verified pass. CI is configured to run them with Chrome. **End-to-end execution of upstream is not yet verified.** No claim of GLB animation round-trip or production editor compatibility is made. See `NOTICE.md` for provenance.
 
 ## Setup
 
